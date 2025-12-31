@@ -161,16 +161,21 @@ then measure my highest point.<br>
 </section>
 
 <!-- 4 MIDNIGHT LOCK -->
-<section id="wait">
+<!-- FINAL PASSWORD WALL -->
+<section id="finalLock">
   <div class="panel fade">
-    <h2>You reached the end too early.</h2>
+    <h2>One last thing.</h2>
     <p class="muted">
-      Some things only reveal themselves when a day ends.<br><br>
-      Come back at midnight.
+      This part isn’t solved.<br>
+      It’s given.
     </p>
-    <p id="clock" class="muted"></p>
+
+    <input id="finalPass" placeholder="Enter the passcode">
+    <br>
+    <button onclick="checkFinalPass()">Unlock</button>
   </div>
 </section>
+
 
 <!-- 5 FINAL LETTER -->
 <section id="final">
@@ -226,30 +231,14 @@ function checkLogic() {
     checkTime();
   }
 }
-
-function checkTime() {
-  const now = new Date();
-
-  if (now.getHours() === 0 && now.getMinutes() === 0) {
-  show("final");
-}
- {
-    show("final");
-  } else {
-    show("wait");
+function checkLogic() {
+  const v = logicInput.value.trim();
+  if (v === "73") {
+    show("finalLock");
   }
 }
 
-setInterval(() => {
-  const now = new Date();
-  const t = now.toLocaleTimeString();
-  const clock = document.getElementById("clock");
-  if (clock) clock.textContent = "Current time: " + t;
 
-  if (now.getHours() === 0 && now.getMinutes() === 0) {
-    show("final");
-  }
-}, 1000);
 </script>
 
 </body>
