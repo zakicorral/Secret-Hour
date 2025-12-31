@@ -129,17 +129,23 @@ button:hover {
 
 <!-- 2 MORSE GAME -->
 <section id="videoSection">
-  <video src="morse.mp4" autoplay muted loop></video>
-  <audio id="morseAudio" src="morse.mp3" autoplay loop></audio>
+  <video id="morseVideo" autoplay muted loop></video>
+  <audio id="morseAudio" loop></audio>
 
   <div class="answerBox fade">
     <h3>Decode the message</h3>
     <p class="muted">Sound and light speak the same language.</p>
+
+    <input type="file" id="videoFile" accept="video/*"><br><br>
+    <input type="file" id="audioFile" accept="audio/*"><br>
+
     <input id="morseInput" placeholder="Your answer">
     <br>
+    <button onclick="loadMedia()">Load Media</button>
     <button onclick="checkMorse()">Submit</button>
   </div>
 </section>
+
 
 <!-- 3 HIDDEN PUZZLE -->
 <section id="logic">
@@ -211,6 +217,25 @@ function checkPass() {
   if (v === "yes") show("videoSection");
 }
 
+function loadMedia() {
+  const videoInput = document.getElementById("videoFile");
+  const audioInput = document.getElementById("audioFile");
+
+  if (videoInput.files[0]) {
+    const videoURL = URL.createObjectURL(videoInput.files[0]);
+    const video = document.getElementById("morseVideo");
+    video.src = videoURL;
+    video.play();
+  }
+
+  if (audioInput.files[0]) {
+    const audioURL = URL.createObjectURL(audioInput.files[0]);
+    const audio = document.getElementById("morseAudio");
+    audio.src = audioURL;
+    audio.play();
+  }
+}
+
 function checkMorse() {
   const v = morseInput.value.trim().toLowerCase();
   if (v === "heart") {
@@ -221,7 +246,7 @@ function checkMorse() {
 
 function checkLogic() {
   const v = logicInput.value.trim();
-  if (v === "5") { // H E A R T
+  if (v === "5") {
     checkTime();
   }
 }
