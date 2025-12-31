@@ -53,7 +53,7 @@ input {
   border-radius: 8px;
   border: none;
   outline: none;
-  width: 220px;
+  width: 240px;
   text-align: center;
   font-size: 16px;
   margin-top: 15px;
@@ -70,10 +70,6 @@ button {
   font-weight: 600;
 }
 
-button:hover {
-  opacity: 0.85;
-}
-
 .fade {
   animation: fadeIn 1.2s ease forwards;
 }
@@ -83,7 +79,6 @@ button:hover {
   to { opacity: 1; transform: translateY(0); }
 }
 
-/* MORSE VIDEO */
 #videoSection video {
   position: absolute;
   inset: 0;
@@ -99,12 +94,10 @@ button:hover {
   border-radius: 12px;
 }
 
-/* FINAL LETTER */
 .letter {
   font-size: 18px;
   line-height: 1.8;
   max-width: 700px;
-  color: #f0f0f0;
 }
 
 .muted {
@@ -116,87 +109,110 @@ button:hover {
 
 <body>
 
-<!-- 1 PASSWORD WALL -->
+<!-- PASSWORD -->
 <section id="password" class="active">
   <div class="panel fade">
     <h2>Before anything begins…</h2>
     <p class="muted">One simple word opens everything.</p>
     <input id="passInput" placeholder="Enter the word">
-    <br>
     <button onclick="checkPass()">Enter</button>
   </div>
 </section>
 
-<!-- 2 MORSE GAME -->
+<!-- MORSE -->
 <section id="videoSection">
   <video src="morse.mp4" autoplay muted loop></video>
   <audio id="morseAudio" src="morse.mp3" autoplay loop></audio>
 
   <div class="answerBox fade">
     <h3>Decode the message</h3>
-    <p class="muted">I can break, I can be clogged, I can be attacked.
-I can be given, I can be kept, I can be crushed . * sound speaks true*</p>
+    <p class="muted">
+      I can break, I can be clogged, I can be attacked.<br>
+      I can be given, I can be kept, I can be crushed.<br>
+      Sound speaks true.
+    </p>
     <input id="morseInput" placeholder="Your answer">
-    <br>
     <button onclick="checkMorse()">Submit</button>
   </div>
 </section>
 
-<!-- 3 HIDDEN PUZZLE -->
-<section id="logic">
+<!-- PUZZLE 1 -->
+<section id="puzzle1">
   <div class="panel fade">
-    <h3>Not everything is solved with words</h3>
+    <h3>Puzzle I</h3>
     <p class="muted">
-      I can break, I can be clogged, I can be attacked.<br>
-      I can be given, I can be kept, I can be crushed.<br><br>
-      You already named me.<br>
-      Now prove you understand me.
+      Remove the first and last letter from the answer you just gave.<br>
+      What remains?
     </p>
-
-    <p class="muted">Type the number of letters it takes to feel me.</p>
-    <input id="logicInput" placeholder="Number">
-    <br>
-    <button onclick="checkLogic()">Continue</button>
+    <input id="p1">
+    <button onclick="checkP1()">Continue</button>
   </div>
 </section>
 
-<!-- 4 MIDNIGHT LOCK -->
+<!-- PUZZLE 2 -->
+<section id="puzzle2">
+  <div class="panel fade">
+    <h3>Puzzle II</h3>
+    <p class="muted">
+      In MORSE CODE, how many signals does that word contain?<br>
+      (Dots + dashes total)
+    </p>
+    <input id="p2">
+    <button onclick="checkP2()">Continue</button>
+  </div>
+</section>
+
+<!-- PUZZLE 3 -->
+<section id="puzzle3">
+  <div class="panel fade">
+    <h3>Puzzle III</h3>
+    <p class="muted">
+      I beat without sound.<br>
+      I speak without words.<br>
+      I answer when you feel alone.<br><br>
+      What am I?
+    </p>
+    <input id="p3">
+    <button onclick="checkP3()">Continue</button>
+  </div>
+</section>
+
+<!-- PUZZLE 4 -->
+<section id="puzzle4">
+  <div class="panel fade">
+    <h3>Final Lock</h3>
+    <p class="muted">
+      How many letters are in the thing that connects all puzzles?
+    </p>
+    <input id="p4">
+    <button onclick="checkP4()">Unlock</button>
+  </div>
+</section>
+
+<!-- WAIT -->
 <section id="wait">
   <div class="panel fade">
-    <h2>You reached the end too early.</h2>
-    <p class="muted">
-      Some things only reveal themselves when a day ends.<br><br>
-      Come back at midnight.
-    </p>
+    <h2>Too early.</h2>
+    <p class="muted">Some things only open at midnight.</p>
     <p id="clock" class="muted"></p>
   </div>
 </section>
 
-<!-- 5 FINAL LETTER -->
+<!-- FINAL -->
 <section id="final">
   <div class="panel fade letter">
     <p>
-      I didn’t build this to impress you.<br>
-      I built it to walk with you through a whole day.
+      You stayed.<br>
+      You thought.<br>
+      You trusted the silence.
     </p>
-
     <p>
-      Every puzzle was patience.<br>
-      Every lock was trust.<br>
-      Every wait was proof that some things are worth staying for.
+      Not everything meaningful is loud.<br>
+      Not everything precious is easy.
     </p>
-
     <p>
-      If you’re reading this, it means you stayed.<br>
-      And that’s all I ever wanted.
+      Happy New Year, my heart.
     </p>
-
-    <p>
-      Happy New Year, my heart.<br>
-      And if life ever feels complicated again,<br>
-      remember — you already solved me.
-    </p>
-
     <p class="muted">— Yours</p>
   </div>
 </section>
@@ -208,23 +224,30 @@ function show(id) {
 }
 
 function checkPass() {
-  const v = passInput.value.trim().toLowerCase();
-  if (v === "yes") show("videoSection");
+  if (passInput.value.trim().toLowerCase() === "yes") show("videoSection");
 }
 
 function checkMorse() {
-  const v = morseInput.value.trim().toLowerCase();
-  if (v === "heart") {
-    document.getElementById("morseAudio").pause();
-    show("logic");
+  if (morseInput.value.trim().toLowerCase() === "heart") {
+    morseAudio.pause();
+    show("puzzle1");
   }
 }
 
-function checkLogic() {
-  const v = logicInput.value.trim();
-  if (v === "5") { // H E A R T
-    checkTime();
-  }
+function checkP1() {
+  if (p1.value.trim().toLowerCase() === "ear") show("puzzle2");
+}
+
+function checkP2() {
+  if (p2.value.trim() === "10") show("puzzle3");
+}
+
+function checkP3() {
+  if (p3.value.trim().toLowerCase() === "heart") show("puzzle4");
+}
+
+function checkP4() {
+  if (p4.value.trim() === "5") checkTime();
 }
 
 function checkTime() {
@@ -238,13 +261,9 @@ function checkTime() {
 
 setInterval(() => {
   const now = new Date();
-  const t = now.toLocaleTimeString();
   const clock = document.getElementById("clock");
-  if (clock) clock.textContent = "Current time: " + t;
-
-  if (now.getHours() === 0 && now.getMinutes() === 0) {
-    show("final");
-  }
+  if (clock) clock.textContent = now.toLocaleTimeString();
+  if (now.getHours() === 0 && now.getMinutes() === 0) show("final");
 }, 1000);
 </script>
 
