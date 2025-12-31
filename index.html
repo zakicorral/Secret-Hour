@@ -134,8 +134,7 @@ button:hover {
 
   <div class="answerBox fade">
     <h3>Decode the message</h3>
-    <p class="muted">I can break, I can be clogged, I can be attacked.
-I can be given, I can be kept, I can be crushed . * sound speaks true*</p>
+    <p class="muted">  .. / -.-. .- -. / -... .-. . .- -.- --..-- / .. / -.-. .- -. / -... . / -.-. .-.. --- --. --. . -.. --..-- / .. / -.-. .- -. / -... . / .- - - .- -.-. -.- . -.. --..-- <br>/ .. / -.-. .- -. / -... . / --. .. ...- . -. --..-- / .. / -.-. .- -. / -... . / -.- . .--. - --..-- / .. / -.-. .- -. <br>/ -... . / -.-. .-. ..- ... .... . -.. --..-- / -.-- . - / .. / -.-. .- -. / -... . / .-- .... --- .-.. . <br>/ .- - / - .... . / ... .- -- . / - .. -- . .-.-.- / .-- .... .- - / .- -- / .. ..--..  </p>
     <input id="morseInput" placeholder="Your answer">
     <br>
     <button onclick="checkMorse()">Submit</button>
@@ -146,14 +145,15 @@ I can be given, I can be kept, I can be crushed . * sound speaks true*</p>
 <section id="logic">
   <div class="panel fade">
     <h3>Not everything is solved with words</h3>
-    <p class="muted">
-      I can break, I can be clogged, I can be attacked.<br>
-      I can be given, I can be kept, I can be crushed.<br><br>
-      You already named me.<br>
-      Now prove you understand me.
-    </p>
+    <p class="muted"> I stand in Agra,<br> in white marble,<br>
+built by an emperor who waited years for love.<br>
+I am not a palace for the living,<br>
+but a monument for one heart.<br>
+Search my name,<br>
+then measure my highest point.<br>
+ </p>
 
-    <p class="muted">Type the number of letters it takes to feel me.</p>
+    <p class="muted">Type What number completes me?</p>
     <input id="logicInput" placeholder="Number">
     <br>
     <button onclick="checkLogic()">Continue</button>
@@ -222,14 +222,17 @@ function checkMorse() {
 
 function checkLogic() {
   const v = logicInput.value.trim();
-  if (v === "5") { // H E A R T
+  if (v === "73") { // H E A R T
     checkTime();
   }
 }
 
 function checkTime() {
   const now = new Date();
-  if (now.getHours() === 10 && now.getMinutes() === 57) {
+  if (
+  now.getHours() > 10 ||
+  (now.getHours() === 10 && now.getMinutes() >= 57)
+) {
     show("final");
   } else {
     show("wait");
