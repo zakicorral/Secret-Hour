@@ -237,6 +237,17 @@ function checkLogic() {
     show("finalLock");
   }
 }
+  function checkFinalPass() {
+  const v = finalPass.value.trim();
+  if (v === "Happy new year") {
+    show("final");
+  } if (v !== "your-secret-word") {
+  finalPass.classList.add("shake");
+  setTimeout(() => finalPass.classList.remove("shake"), 500);
+}
+
+}
+
 
 
 </script>
