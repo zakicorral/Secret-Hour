@@ -230,8 +230,8 @@ function checkLogic() {
 function checkTime() {
   const now = new Date();
   if (
-  now.getHours() > 10 ||
-  (now.getHours() === 10 && now.getMinutes() >= 57)
+  now.getHours() > 0 ||
+  (now.getHours() === 0 && now.getMinutes() >= 0)
 ) {
     show("final");
   } else {
