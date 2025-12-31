@@ -1,298 +1,182 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>For You, My Love 💖</title>
-  <link href="https://fonts.googleapis.com/css2?family=Quicksand:wght@500&family=Great+Vibes&family=Playfair+Display:wght@600&display=swap" rel="stylesheet">
-  <style>
-    body {
-      margin: 0;
-      padding: 0;
-      font-family: 'Quicksand', sans-serif;
-      background: url('moon.jpg') no-repeat center center fixed;
-      background-size: cover;
-      color: #fdf0f7;
-    }
-    .lock-screen, .main-content {
-      max-width: 900px;
-      margin: auto;
-      padding: 40px;
-      border-radius: 20px;
-      box-shadow: 0 4px 20px rgba(255,255,255,0.2);
-      background-color: rgba(0, 0, 0, 0.6);
-      margin-top: 50px;
-      animation: fadeIn 1.2s ease-in-out;
-    }
-    .hidden { display: none; }
+<meta charset="UTF-8">
+<title>Unlock</title>
+<style>
+body {
+  margin: 0;
+  background: #0b0b0b;
+  color: #fff;
+  font-family: Arial, sans-serif;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
+}
 
-    .title {
-      font-family: 'Great Vibes', cursive;
-      font-size: 2.8em;
-      color: #ffcad4;
-      text-align: center;
-      margin-bottom: 30px;
-    }
-    .buttons {
-      display: flex;
-      flex-wrap: wrap;
-      gap: 15px;
-      justify-content: center;
-      margin-bottom: 30px;
-      animation: fadeIn 1.5s ease-in-out;
-    }
-    button {
-      background: rgba(255, 255, 255, 0.1);
-      border: 2px solid #ffc0cb;
-      color: #ffeef5;
-      padding: 12px 20px;
-      font-size: 1.1em;
-      border-radius: 50px;
-      cursor: pointer;
-      transition: all 0.4s ease;
-    }
-    button:hover {
-      background-color: #ffc0cb;
-      color: #3b3b3b;
-      transform: scale(1.05);
-    }
-    .entry {
-      background-color: #fff0f52e;
-      border: 1px solid #ffcce0;
-      border-radius: 15px;
-      padding: 15px 20px;
-      margin-top: 15px;
-      color: #ffffff;
-      position: relative;
-      box-shadow: 0 0 10px rgba(255, 192, 203, 0.3);
-      cursor: pointer;
-    }
-    .entry:hover {
-      transform: scale(1.02);
-    }
-    .date-label {
-      font-size: 0.9em;
-      color: #ccc;
-      margin-bottom: 5px;
-      font-style: italic;
-    }
-    .diary-card {
-      background-color: rgba(255, 255, 255, 0.1);
-      padding: 20px;
-      border-radius: 15px;
-      margin-top: 20px;
-    }
-    .unlock-btn, .diary-btn, .zaki-btn {
-      margin-top: 15px;
-      padding: 10px 20px;
-      background-color: #ff91a4;
-      color: white;
-      border: none;
-      border-radius: 10px;
-      cursor: pointer;
-    }
-    .unlock-btn:hover, .diary-btn:hover, .zaki-btn:hover {
-      background-color: #ff6389;
-    }
-    @keyframes fadeIn {
-      from { opacity: 0; transform: translateY(10px); }
-      to { opacity: 1; transform: translateY(0); }
-    }
-    #password {
-      display: block;
-      margin: 20px auto;
-      padding: 20px;
-      font-size: 1.4em;
-      width: 70%;
-      border-radius: 15px;
-      border: none;
-      text-align: center;
-    }
-    .prompt-form {
-      display: flex;
-      flex-direction: column;
-      gap: 10px;
-    }
-    .prompt-form input, .prompt-form textarea {
-      font-size: 1em;
-      padding: 10px;
-      border-radius: 10px;
-      border: none;
-    }
-    .prompt-form textarea {
-      height: 120px;
-    }
-    .modal {
-      position: fixed;
-      top: 0;
-      left: 0;
-      width: 100vw;
-      height: 100vh;
-      background-color: rgba(0, 0, 0, 0.6);
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      z-index: 1000;
-    }
-    .modal.hidden {
-      display: none !important;
-    }
-    .modal-content {
-      background-color: #2c2c2c;
-      color: #fff;
-      padding: 30px;
-      border-radius: 15px;
-      max-width: 600px;
-      width: 90%;
-    }
-    .modal-close {
-      background-color: #ff91a4;
-      border: none;
-      color: white;
-      padding: 8px 16px;
-      border-radius: 8px;
-      float: right;
-      cursor: pointer;
-    }
-  </style>
+.container {
+  text-align: center;
+  max-width: 400px;
+}
+
+h1 {
+  margin-bottom: 20px;
+}
+
+input {
+  padding: 10px;
+  font-size: 1rem;
+  text-align: center;
+  width: 120px;
+}
+
+button {
+  margin-top: 20px;
+  padding: 10px 20px;
+  background: #111;
+  color: #fff;
+  border: 1px solid #444;
+  cursor: pointer;
+}
+
+.glow {
+  text-shadow: 0 0 12px #00ffff;
+}
+
+.hidden {
+  display: none;
+}
+
+.timer {
+  font-size: 2rem;
+}
+</style>
 </head>
 <body>
-  <div class="lock-screen" id="lockScreen">
-    <h2 class="title">Welcome, Love 💖</h2>
-    <p style="text-align:center">Enter the secret word to unlock your special place 🌸</p>
-    <input type="password" id="password" placeholder="Password is 'happiness'" />
-    <button class="unlock-btn" onclick="unlockSite()">Unlock</button>
-    <p id="errorMsg" style="color:#ffc0cb;text-align:center;"></p>
-  </div>
 
-  <div class="main-content hidden" id="mainContent">
-    <h1 class="title">Choose an Option</h1>
-    <div class="buttons">
-      <button onclick="toggleFeelings()">💖 My Feelings</button>
-      <button class="diary-btn" onclick="toggleDiary()">📓 My Diary</button>
-      <a href="button.html">
-  <button class="zaki-btn">💬 Talk to Zaki</button>
-</a>
-    </div>
-    <div id="feelingsPanel" class="hidden">
-      <div class="buttons">
-        <button onclick="showFeeling('happy')">Happy 😊</button>
-        <button onclick="showFeeling('sad')">Sad 😢</button>
-        <button onclick="showFeeling('angry')">Angry 😡</button>
-        <button onclick="showFeeling('loved')">Loved 💕</button>
-        <button onclick="showFeeling('bored')">Bored 😴</button>
-        <button onclick="showFeeling('anxious')">Anxious 😰</button>
-        <button onclick="showFeeling('excited')">Excited 🤩</button>
-        <button onclick="showFeeling('tired')">Tired 😴</button>
-        <button onclick="showFeeling('motivated')">Motivated 💪</button>
-      </div>
-    </div>
-    <div id="feelingContent" class="feeling-content"></div>
-    <div id="diarySection" class="hidden">
-      <h2 class="title">📝 Your Personal Diary</h2>
-      <div class="prompt-form">
-        <input id="diaryTitle" type="text" placeholder="Give today a title..." />
-        <textarea id="diaryEntry" placeholder="Write what's on your heart..."></textarea>
-        <button onclick="saveDiary()">Save Entry</button>
-      </div>
-      <div id="diaryHistory"></div>
-    </div>
-  </div>
+<div class="container" id="app"></div>
 
-  <div id="diaryModal" class="modal hidden">
-    <div class="modal-content">
-      <button class="modal-close" onclick="closeModal()">Close</button>
-      <h2 id="modalTitle"></h2>
-      <p id="modalText"></p>
-    </div>
-  </div>
+<script>
+const app = document.getElementById("app");
+let step = 0;
+let clues = [];
 
-  <script>
-    const diaryKey = 'loveDiaryEntries';
+function render() {
+  // PASSWORD GATE
+  if (step === 0) {
+    app.innerHTML = `
+      <h1 class="glow">Enter the code</h1>
+      <input id="input" placeholder="password">
+      <br>
+      <button onclick="checkPassword()">Unlock</button>
+    `;
+  }
 
-    function unlockSite() {
-      const pass = document.getElementById("password").value;
-      if (pass.toLowerCase() === "happiness") {
-        document.getElementById("lockScreen").classList.add("hidden");
-        document.getElementById("mainContent").classList.remove("hidden");
-        loadDiary();
-      } else {
-        document.getElementById("errorMsg").innerText = "Wrong password, try again 💔";
-      }
+  // PUZZLE 1
+  if (step === 1) {
+    app.innerHTML = `
+      <h1>I move forward.<br>I never stop.<br>I end things so new ones start.</h1>
+      <input id="input" placeholder="answer">
+      <br>
+      <button onclick="checkAnswer('time')">Submit</button>
+    `;
+  }
+
+  // PUZZLE 2 (COUNTDOWN)
+  if (step === 2) {
+    app.innerHTML = `
+      <h1 class="glow">Wait.</h1>
+      <p class="timer" id="timer">60</p>
+    `;
+    startCountdown();
+  }
+
+  // PUZZLE 3 (TIME LOCK)
+  if (step === 3) {
+    app.innerHTML = `
+      <h1>2025 → ?</h1>
+      <p id="lockText">Some answers only exist at the right moment.</p>
+      <input id="input" class="hidden">
+      <br>
+      <button id="btn" class="hidden" onclick="checkYear()">Submit</button>
+    `;
+    checkMidnight();
+  }
+
+  // FINAL REVEAL
+  if (step === 4) {
+    app.innerHTML = `
+      <h1 class="glow">Unlocked.</h1>
+      <p>Time reached zero.</p>
+      <p>A new year unlocked.</p>
+      <h2>Happy New Year 🎆</h2>
+    `;
+  }
+}
+
+function checkPassword() {
+  const val = document.getElementById("input").value;
+  if (val === "60") {
+    step = 1;
+    render();
+  } else {
+    alert("Wrong code.");
+  }
+}
+
+function checkAnswer(correct) {
+  const val = document.getElementById("input").value.toLowerCase();
+  if (val === correct) {
+    clues.push(correct.toUpperCase());
+    step = 2;
+    render();
+  } else {
+    alert("Try again.");
+  }
+}
+
+function startCountdown() {
+  let time = 60;
+  const t = document.getElementById("timer");
+  const interval = setInterval(() => {
+    time--;
+    t.textContent = time;
+    if (time <= 0) {
+      clearInterval(interval);
+      clues.push("ZERO");
+      step = 3;
+      render();
     }
+  }, 1000);
+}
 
-    function toggleDiary() {
-      document.getElementById("diarySection").classList.toggle("hidden");
-    }
+function checkMidnight() {
+  const now = new Date();
+  const unlock = new Date(now.getFullYear(), 11, 31, 24, 0, 0);
 
-    function toggleFeelings() {
-      document.getElementById("feelingsPanel").classList.toggle("hidden");
-    }
+  if (now >= unlock) {
+    document.getElementById("lockText").textContent = "Now.";
+    document.getElementById("input").classList.remove("hidden");
+    document.getElementById("btn").classList.remove("hidden");
+  } else {
+    setTimeout(checkMidnight, 1000);
+  }
+}
 
-    function showFeeling(type) {
-      const messages = {
-        happy: "I'm so happy you're smiling today! 💖",
-        sad: "It's okay to feel down. I'm here for you always 💗",
-        angry: "Take a deep breath, love. You're stronger than your anger ❤️",
-        loved: "You're so deeply loved, today and every day 💞",
-        bored: "Let’s create some magic to kill the boredom ✨",
-        anxious: "You're safe. Take a breath. I'm right here 🧷",
-        excited: "Yay! Let's celebrate together! 🎉",
-        tired: "You deserve rest. Go easy on yourself 💆‍♀️",
-        motivated: "You’re on fire today! Go chase your dreams! 🔥"
-      };
-      const area = document.getElementById("feelingContent");
-      area.innerHTML = `<p style='font-size:1.2em;'>${messages[type]}</p>`;
-      saveFeelingAutoEntry(type);
-    }
+function checkYear() {
+  const val = document.getElementById("input").value;
+  if (val === "2026") {
+    clues.push("2026");
+    step = 4;
+    render();
+  } else {
+    alert("Not yet.");
+  }
+}
 
-    function saveFeelingAutoEntry(type) {
-      const now = new Date().toLocaleString();
-      const entry = { date: now, title: `Feeling: ${type}`, text: `Ibtissem is feeling ${type} today.` };
-      const entries = JSON.parse(localStorage.getItem(diaryKey)) || [];
-      entries.unshift(entry);
-      localStorage.setItem(diaryKey, JSON.stringify(entries));
-      loadDiary();
-    }
+render();
+</script>
 
-    function saveDiary() {
-      const title = document.getElementById("diaryTitle").value.trim() || "Untitled";
-      const text = document.getElementById("diaryEntry").value.trim();
-      if (!text) return alert("Write something first ✍️");
-      const date = new Date().toLocaleString();
-      const entry = { date, title, text };
-      const entries = JSON.parse(localStorage.getItem(diaryKey)) || [];
-      entries.unshift(entry);
-      localStorage.setItem(diaryKey, JSON.stringify(entries));
-      document.getElementById("diaryTitle").value = "";
-      document.getElementById("diaryEntry").value = "";
-      loadDiary();
-    }
-
-    function loadDiary() {
-      const history = document.getElementById("diaryHistory");
-      const entries = JSON.parse(localStorage.getItem(diaryKey)) || [];
-      history.innerHTML = entries.map((e, i) => `
-        <div class='entry' onclick='openModal(${i})'>
-          <div class='date-label'>${e.date}</div>
-          <h3>${e.title || 'Untitled'}</h3>
-        </div>
-      `).join('');
-    }
-
-    function openModal(index) {
-      const entries = JSON.parse(localStorage.getItem(diaryKey)) || [];
-      const entry = entries[index];
-      document.getElementById("modalTitle").innerText = entry.title;
-      document.getElementById("modalText").innerText = entry.text;
-      document.getElementById("diaryModal").classList.remove("hidden");
-    }
-
-    function closeModal() {
-      document.getElementById("diaryModal").classList.add("hidden");
-      document.getElementById("modalTitle").innerText = "";
-      document.getElementById("modalText").innerText = "";
-    }
-  </script>
 </body>
 </html>
