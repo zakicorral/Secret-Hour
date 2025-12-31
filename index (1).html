@@ -1,0 +1,251 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>For You</title>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<style>
+:root {
+  --bg: #0f1115;
+  --panel: #161922;
+  --text: #e6e6e6;
+  --muted: #9aa0b3;
+  --accent: #c5a36a;
+}
+
+* {
+  box-sizing: border-box;
+  font-family: 'Segoe UI', sans-serif;
+}
+
+body {
+  margin: 0;
+  background: radial-gradient(circle at top, #151822, #0b0d12);
+  color: var(--text);
+  overflow: hidden;
+}
+
+section {
+  display: none;
+  height: 100vh;
+  width: 100vw;
+  align-items: center;
+  justify-content: center;
+  flex-direction: column;
+  text-align: center;
+}
+
+section.active {
+  display: flex;
+}
+
+.panel {
+  background: rgba(22,25,34,0.92);
+  padding: 30px;
+  border-radius: 14px;
+  box-shadow: 0 0 40px rgba(0,0,0,0.6);
+  max-width: 90%;
+}
+
+input {
+  padding: 12px;
+  border-radius: 8px;
+  border: none;
+  outline: none;
+  width: 220px;
+  text-align: center;
+  font-size: 16px;
+  margin-top: 15px;
+}
+
+button {
+  margin-top: 15px;
+  padding: 12px 22px;
+  border-radius: 10px;
+  border: none;
+  cursor: pointer;
+  background: var(--accent);
+  color: #000;
+  font-weight: 600;
+}
+
+button:hover {
+  opacity: 0.85;
+}
+
+.fade {
+  animation: fadeIn 1.2s ease forwards;
+}
+
+@keyframes fadeIn {
+  from { opacity: 0; transform: translateY(10px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+/* MORSE VIDEO */
+#videoSection video {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  z-index: -1;
+}
+
+.answerBox {
+  background: rgba(0,0,0,0.55);
+  padding: 20px;
+  border-radius: 12px;
+}
+
+/* FINAL LETTER */
+.letter {
+  font-size: 18px;
+  line-height: 1.8;
+  max-width: 700px;
+  color: #f0f0f0;
+}
+
+.muted {
+  color: var(--muted);
+  font-size: 14px;
+}
+</style>
+</head>
+
+<body>
+
+<!-- 1 PASSWORD WALL -->
+<section id="password" class="active">
+  <div class="panel fade">
+    <h2>Before anything begins…</h2>
+    <p class="muted">One simple word opens everything.</p>
+    <input id="passInput" placeholder="Enter the word">
+    <br>
+    <button onclick="checkPass()">Enter</button>
+  </div>
+</section>
+
+<!-- 2 MORSE GAME -->
+<section id="videoSection">
+  <video src="morse.mp4" autoplay muted loop></video>
+  <audio id="morseAudio" src="morse.mp3" autoplay loop></audio>
+
+  <div class="answerBox fade">
+    <h3>Decode the message</h3>
+    <p class="muted">Sound and light speak the same language.</p>
+    <input id="morseInput" placeholder="Your answer">
+    <br>
+    <button onclick="checkMorse()">Submit</button>
+  </div>
+</section>
+
+<!-- 3 HIDDEN PUZZLE -->
+<section id="logic">
+  <div class="panel fade">
+    <h3>Not everything is solved with words</h3>
+    <p class="muted">
+      I can break, I can be clogged, I can be attacked.<br>
+      I can be given, I can be kept, I can be crushed.<br><br>
+      You already named me.<br>
+      Now prove you understand me.
+    </p>
+
+    <p class="muted">Type the number of letters it takes to feel me.</p>
+    <input id="logicInput" placeholder="Number">
+    <br>
+    <button onclick="checkLogic()">Continue</button>
+  </div>
+</section>
+
+<!-- 4 MIDNIGHT LOCK -->
+<section id="wait">
+  <div class="panel fade">
+    <h2>You reached the end too early.</h2>
+    <p class="muted">
+      Some things only reveal themselves when a day ends.<br><br>
+      Come back at midnight.
+    </p>
+    <p id="clock" class="muted"></p>
+  </div>
+</section>
+
+<!-- 5 FINAL LETTER -->
+<section id="final">
+  <div class="panel fade letter">
+    <p>
+      I didn’t build this to impress you.<br>
+      I built it to walk with you through a whole day.
+    </p>
+
+    <p>
+      Every puzzle was patience.<br>
+      Every lock was trust.<br>
+      Every wait was proof that some things are worth staying for.
+    </p>
+
+    <p>
+      If you’re reading this, it means you stayed.<br>
+      And that’s all I ever wanted.
+    </p>
+
+    <p>
+      Happy New Year, my heart.<br>
+      And if life ever feels complicated again,<br>
+      remember — you already solved me.
+    </p>
+
+    <p class="muted">— Yours</p>
+  </div>
+</section>
+
+<script>
+function show(id) {
+  document.querySelectorAll("section").forEach(s => s.classList.remove("active"));
+  document.getElementById(id).classList.add("active");
+}
+
+function checkPass() {
+  const v = passInput.value.trim().toLowerCase();
+  if (v === "yes") show("videoSection");
+}
+
+function checkMorse() {
+  const v = morseInput.value.trim().toLowerCase();
+  if (v === "heart") {
+    document.getElementById("morseAudio").pause();
+    show("logic");
+  }
+}
+
+function checkLogic() {
+  const v = logicInput.value.trim();
+  if (v === "5") { // H E A R T
+    checkTime();
+  }
+}
+
+function checkTime() {
+  const now = new Date();
+  if (now.getHours() === 0 && now.getMinutes() === 0) {
+    show("final");
+  } else {
+    show("wait");
+  }
+}
+
+setInterval(() => {
+  const now = new Date();
+  const t = now.toLocaleTimeString();
+  const clock = document.getElementById("clock");
+  if (clock) clock.textContent = "Current time: " + t;
+
+  if (now.getHours() === 0 && now.getMinutes() === 0) {
+    show("final");
+  }
+}, 1000);
+</script>
+
+</body>
+</html>
