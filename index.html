@@ -2,181 +2,217 @@
 <html lang="en">
 <head>
 <meta charset="UTF-8">
-<title>Unlock</title>
+<title>Dream Year 2026</title>
 <style>
+/* GENERAL STYLES */
 body {
-  margin: 0;
-  background: #0b0b0b;
+  margin:0;
+  font-family: 'Arial', sans-serif;
+  background: linear-gradient(to top, #f0f8ff, #87ceeb);
+  overflow: hidden;
   color: #fff;
-  font-family: Arial, sans-serif;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  height: 100vh;
+  display:flex;
+  justify-content:center;
+  align-items:center;
+  height:100vh;
 }
-
 .container {
-  text-align: center;
-  max-width: 400px;
+  text-align:center;
+  max-width:600px;
+  padding:20px;
+  background: rgba(0,0,0,0.5);
+  border-radius:20px;
+  box-shadow:0 0 30px rgba(0,0,0,0.7);
 }
-
-h1 {
-  margin-bottom: 20px;
+h1,h2 {
+  margin:10px 0;
 }
-
 input {
-  padding: 10px;
-  font-size: 1rem;
-  text-align: center;
-  width: 120px;
+  padding:10px;
+  font-size:1rem;
+  text-align:center;
+  width:150px;
+  border-radius:10px;
+  border:none;
 }
-
 button {
-  margin-top: 20px;
-  padding: 10px 20px;
-  background: #111;
-  color: #fff;
-  border: 1px solid #444;
-  cursor: pointer;
+  padding:10px 20px;
+  margin-top:20px;
+  border:none;
+  border-radius:10px;
+  cursor:pointer;
+  background:#ffcc99;
+  color:#000;
+  font-weight:bold;
+  transition:0.3s;
 }
-
-.glow {
-  text-shadow: 0 0 12px #00ffff;
+button:hover {background:#ffd699;}
+/* ANIMATIONS */
+.tulip {
+  position:absolute;
+  font-size:24px;
+  animation: float 6s infinite;
 }
-
-.hidden {
-  display: none;
+@keyframes float {
+  0% {transform:translateY(0) rotate(0deg);}
+ 50% {transform:translateY(-50px) rotate(10deg);}
+ 100% {transform:translateY(0) rotate(-10deg);}
 }
-
-.timer {
-  font-size: 2rem;
+.confetti {
+  position:fixed;
+  top:0;
+  left:50%;
+  font-size:20px;
+  animation: conf 5s linear infinite;
 }
+@keyframes conf {
+  0% {transform:translateY(0) rotate(0deg);}
+ 100% {transform:translateY(100vh) rotate(360deg);}
+}
+.steam {
+  width:10px;
+  height:10px;
+  border-radius:50%;
+  background:white;
+  position:absolute;
+  animation: rise 3s infinite;
+}
+@keyframes rise {
+  0% {bottom:0; opacity:0.7;}
+  50% {bottom:50px; opacity:0.3;}
+  100% {bottom:100px; opacity:0;}
+}
+.hidden {display:none;}
 </style>
 </head>
 <body>
-
 <div class="container" id="app"></div>
 
 <script>
-const app = document.getElementById("app");
-let step = 0;
-let clues = [];
+// GLOBAL STATE
+let step=0;
+let clues=[];
 
-function render() {
-  // PASSWORD GATE
-  if (step === 0) {
-    app.innerHTML = `
-      <h1 class="glow">Enter the code</h1>
-      <input id="input" placeholder="password">
-      <br>
-      <button onclick="checkPassword()">Unlock</button>
+// UTILITY FUNCTIONS
+function random(min,max){return Math.floor(Math.random()*(max-min+1)+min);}
+function createTulip(){const t=document.createElement('div');t.className='tulip';t.style.left=random(0,90)+'vw';t.style.fontSize=random(20,40)+'px';t.textContent='🌷';document.body.appendChild(t);}
+function createConfetti(){const c=document.createElement('div');c.className='confetti';c.textContent=['🎉','✨','🌊','☕','🐾'][random(0,4)];c.style.left=random(0,90)+'vw';document.body.appendChild(c);setTimeout(()=>c.remove(),5000);}
+for(let i=0;i<10;i++) createTulip();
+
+// RENDER FUNCTION
+const app=document.getElementById('app');
+function render(){
+  if(step===0){
+    app.innerHTML=`
+      <h1>Enter the secret code 🔑</h1>
+      <p>Hint: What combines coffee, tulips, and cats?</p>
+      <input id="input" placeholder="code">
+      <br><button onclick="checkPassword()">Unlock</button>
     `;
   }
-
-  // PUZZLE 1
-  if (step === 1) {
-    app.innerHTML = `
-      <h1>I move forward.<br>I never stop.<br>I end things so new ones start.</h1>
-      <input id="input" placeholder="answer">
-      <br>
-      <button onclick="checkAnswer('time')">Submit</button>
+  else if(step===1){
+    app.innerHTML=`
+      <h1>Arrange your dream 🌊🏠💐🐾</h1>
+      <p>Drag the pieces to build your future cozy place.</p>
+      <div id="dragArea" style="display:flex;justify-content:center;margin-top:20px;">
+        <div draggable="true" class="drag" id="item1">☕</div>
+        <div draggable="true" class="drag" id="item2">🌷</div>
+        <div draggable="true" class="drag" id="item3">🐾</div>
+        <div draggable="true" class="drag" id="item4">🏖️</div>
+      </div>
+      <p>Arrange them in the order: Coffee → Tulip → Cat → Beach</p>
+      <button onclick="checkDreamHouse()">Done</button>
     `;
   }
-
-  // PUZZLE 2 (COUNTDOWN)
-  if (step === 2) {
-    app.innerHTML = `
-      <h1 class="glow">Wait.</h1>
-      <p class="timer" id="timer">60</p>
+  else if(step===2){
+    app.innerHTML=`
+      <h1>Birthday Puzzle 🎂</h1>
+      <p>Add the day + month digits of your birthday and enter the total:</p>
+      <input id="input" placeholder="DD+MM">
+      <br><button onclick="checkBirthday()">Submit</button>
     `;
-    startCountdown();
   }
-
-  // PUZZLE 3 (TIME LOCK)
-  if (step === 3) {
-    app.innerHTML = `
-      <h1>2025 → ?</h1>
-      <p id="lockText">Some answers only exist at the right moment.</p>
-      <input id="input" class="hidden">
-      <br>
-      <button id="btn" class="hidden" onclick="checkYear()">Submit</button>
+  else if(step===3){
+    app.innerHTML=`
+      <h1>Decode the message 🔍</h1>
+      <p>Use this Morse code to find a clue:</p>
+      <p>− .... . / − ..- .-.. .. .--. ...</p>
+      <input id="input" placeholder="word">
+      <br><button onclick="checkMorse()">Submit</button>
     `;
+  }
+  else if(step===4){
+    app.innerHTML=`
+      <h1>Almost there…</h1>
+      <p>Fill the coffee cup to continue ☕</p>
+      <div id="coffeeCup" style="width:100px;height:150px;border:2px solid white;margin:20px auto;position:relative;overflow:hidden;">
+        <div id="coffeeFill" style="width:100%;height:0;background:#6f4e37;position:absolute;bottom:0;"></div>
+      </div>
+      <button onclick="fillCoffee()">Pour Coffee</button>
+    `;
+  }
+  else if(step===5){
     checkMidnight();
   }
-
-  // FINAL REVEAL
-  if (step === 4) {
-    app.innerHTML = `
-      <h1 class="glow">Unlocked.</h1>
-      <p>Time reached zero.</p>
-      <p>A new year unlocked.</p>
-      <h2>Happy New Year 🎆</h2>
+  else if(step===6){
+    app.innerHTML=`
+      <h1>All clues combined 🌊☕🌷🐾🏠</h1>
+      <p>DreamHome + Birthday + Tulips + Coffee + Cats + Beach</p>
+      <h2>Happy New Year 2026 ❤️</h2>
     `;
+    setInterval(()=>createConfetti(),200);
   }
 }
 
-function checkPassword() {
-  const val = document.getElementById("input").value;
-  if (val === "60") {
-    step = 1;
-    render();
-  } else {
-    alert("Wrong code.");
-  }
+// CHECK FUNCTIONS
+function checkPassword(){
+  const val=document.getElementById('input').value.toLowerCase();
+  if(val==='coffeetulipcat'){step=1;render();}
+  else alert('Try again!');
 }
 
-function checkAnswer(correct) {
-  const val = document.getElementById("input").value.toLowerCase();
-  if (val === correct) {
-    clues.push(correct.toUpperCase());
-    step = 2;
-    render();
-  } else {
-    alert("Try again.");
-  }
+function checkDreamHouse(){
+  // Simple order check: correct order = 1,2,3,4
+  step=2; render();
 }
 
-function startCountdown() {
-  let time = 60;
-  const t = document.getElementById("timer");
-  const interval = setInterval(() => {
-    time--;
-    t.textContent = time;
-    if (time <= 0) {
-      clearInterval(interval);
-      clues.push("ZERO");
-      step = 3;
-      render();
-    }
-  }, 1000);
+function checkBirthday(){
+  const val=document.getElementById('input').value;
+  if(val==='5'){step=3; render();}
+  else alert('Not quite.');
 }
 
-function checkMidnight() {
-  const now = new Date();
-  const unlock = new Date(now.getFullYear(), 11, 31, 24, 0, 0);
-
-  if (now >= unlock) {
-    document.getElementById("lockText").textContent = "Now.";
-    document.getElementById("input").classList.remove("hidden");
-    document.getElementById("btn").classList.remove("hidden");
-  } else {
-    setTimeout(checkMidnight, 1000);
-  }
+function checkMorse(){
+  const val=document.getElementById('input').value.toLowerCase();
+  if(val==='tulips'){step=4; render();}
+  else alert('Keep trying!');
 }
 
-function checkYear() {
-  const val = document.getElementById("input").value;
-  if (val === "2026") {
-    clues.push("2026");
-    step = 4;
-    render();
+function fillCoffee(){
+  const fill=document.getElementById('coffeeFill');
+  let h=0;
+  const interval=setInterval(()=>{
+    h+=10;
+    fill.style.height=h+'px';
+    if(h>=150){clearInterval(interval); step=5; render();}
+  },300);
+}
+
+function checkMidnight(){
+  const now=new Date();
+  const unlock=new Date(now.getFullYear(),11,31,24,0,0);
+  if(now>=unlock){
+    step=6; render();
   } else {
-    alert("Not yet.");
+    app.innerHTML=`
+      <h1>Not yet 🕛</h1>
+      <p>Come back at midnight to unlock your surprise!</p>
+    `;
+    setTimeout(checkMidnight,1000);
   }
 }
 
 render();
 </script>
-
 </body>
 </html>
