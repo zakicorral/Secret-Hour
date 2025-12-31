@@ -229,30 +229,26 @@ function checkLogic() {
 
 function checkTime() {
   const now = new Date();
-
-  // midnight today
-  const midnight = new Date();
-  midnight.setHours(0, 0, 0, 0);
-
-  if (now >= midnight) {
+  if (
+  now.getHours() > 10 ||
+  (now.getHours() === 0 && now.getMinutes() >= 0)
+) {
     show("final");
   } else {
     show("wait");
   }
 }
 
-
 setInterval(() => {
   const now = new Date();
+  const t = now.toLocaleTimeString();
   const clock = document.getElementById("clock");
+  if (clock) clock.textContent = "Current time: " + t;
 
-  if (clock) {
-    clock.textContent = "Current time: " + now.toLocaleTimeString();
+  if (now.getHours() === 0 && now.getMinutes() === 0) {
+    show("final");
   }
-
-  checkTime();
 }, 1000);
-
 </script>
 
 </body>
