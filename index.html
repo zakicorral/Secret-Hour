@@ -2,142 +2,250 @@
 <html lang="en">
 <head>
 <meta charset="UTF-8">
-<title>Word Search Puzzle</title>
+<title>For You</title>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
 <style>
+:root {
+  --bg: #0f1115;
+  --panel: #161922;
+  --text: #e6e6e6;
+  --muted: #9aa0b3;
+  --accent: #c5a36a;
+}
+
+* {
+  box-sizing: border-box;
+  font-family: 'Segoe UI', sans-serif;
+}
+
 body {
-  font-family: Arial, sans-serif;
-  background: #fdf6e3;
-  display: flex;
-  flex-direction: column;
+  margin: 0;
+  background: radial-gradient(circle at top, #151822, #0b0d12);
+  color: var(--text);
+  overflow: hidden;
+}
+
+section {
+  display: none;
+  height: 100vh;
+  width: 100vw;
   align-items: center;
+  justify-content: center;
+  flex-direction: column;
+  text-align: center;
+}
+
+section.active {
+  display: flex;
+}
+
+.panel {
+  background: rgba(22,25,34,0.92);
+  padding: 30px;
+  border-radius: 14px;
+  box-shadow: 0 0 40px rgba(0,0,0,0.6);
+  max-width: 90%;
+}
+
+input {
+  padding: 12px;
+  border-radius: 8px;
+  border: none;
+  outline: none;
+  width: 220px;
+  text-align: center;
+  font-size: 16px;
+  margin-top: 15px;
+}
+
+button {
+  margin-top: 15px;
+  padding: 12px 22px;
+  border-radius: 10px;
+  border: none;
+  cursor: pointer;
+  background: var(--accent);
+  color: #000;
+  font-weight: 600;
+}
+
+button:hover {
+  opacity: 0.85;
+}
+
+.fade {
+  animation: fadeIn 1.2s ease forwards;
+}
+
+@keyframes fadeIn {
+  from { opacity: 0; transform: translateY(10px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+/* MORSE VIDEO */
+#videoSection video {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  z-index: -1;
+}
+
+.answerBox {
+  background: rgba(0,0,0,0.55);
   padding: 20px;
+  border-radius: 12px;
 }
-h1 {margin-bottom: 10px;}
-#grid {display: grid; grid-template-columns: repeat(20, 30px); grid-gap: 2px; margin-bottom:20px;}
-.cell {
-  width:30px; height:30px;
-  display:flex; justify-content:center; align-items:center;
-  background: #eee;
-  cursor:pointer;
-  user-select:none;
-  font-weight:bold;
+
+/* FINAL LETTER */
+.letter {
+  font-size: 18px;
+  line-height: 1.8;
+  max-width: 700px;
+  color: #f0f0f0;
 }
-.cell.selected {background:#ffa;}
-.cell.found {background:#8f8; color:#fff; font-weight:bold;}
-#words {margin-top:20px;}
-#words span {display:inline-block; margin:0 5px 5px 0; padding:3px 6px; background:#ddd; border-radius:4px;}
-#words span.found {background:#8f8; color:#fff;}
+
+.muted {
+  color: var(--muted);
+  font-size: 14px;
+}
 </style>
 </head>
+
 <body>
 
-<h1>Word Search Puzzle</h1>
-<p>Find all <span id="wordCount"></span> words!</p>
-<div id="grid"></div>
-<div id="words"></div>
+<!-- 1 PASSWORD WALL -->
+<section id="password" class="active">
+  <div class="panel fade">
+    <h2>Before anything begins…</h2>
+    <p class="muted">One simple word opens everything.</p>
+    <input id="passInput" placeholder="Enter the word">
+    <br>
+    <button onclick="checkPass()">Enter</button>
+  </div>
+</section>
+
+<!-- 2 MORSE GAME -->
+<section id="videoSection">
+  <video src="morse.mp4" autoplay muted loop></video>
+  <audio id="morseAudio" src="morse.mp3" autoplay loop></audio>
+
+  <div class="answerBox fade">
+    <h3>Decode the message</h3>
+    <p class="muted">Sound and light speak the same language.</p>
+    <input id="morseInput" placeholder="Your answer">
+    <br>
+    <button onclick="checkMorse()">Submit</button>
+  </div>
+</section>
+
+<!-- 3 HIDDEN PUZZLE -->
+<section id="logic">
+  <div class="panel fade">
+    <h3>Not everything is solved with words</h3>
+    <p class="muted">
+      I can break, I can be clogged, I can be attacked.<br>
+      I can be given, I can be kept, I can be crushed.<br><br>
+      You already named me.<br>
+      Now prove you understand me.
+    </p>
+
+    <p class="muted">Type the number of letters it takes to feel me.</p>
+    <input id="logicInput" placeholder="Number">
+    <br>
+    <button onclick="checkLogic()">Continue</button>
+  </div>
+</section>
+
+<!-- 4 MIDNIGHT LOCK -->
+<section id="wait">
+  <div class="panel fade">
+    <h2>You reached the end too early.</h2>
+    <p class="muted">
+      Some things only reveal themselves when a day ends.<br><br>
+      Come back at midnight.
+    </p>
+    <p id="clock" class="muted"></p>
+  </div>
+</section>
+
+<!-- 5 FINAL LETTER -->
+<section id="final">
+  <div class="panel fade letter">
+    <p>
+      I didn’t build this to impress you.<br>
+      I built it to walk with you through a whole day.
+    </p>
+
+    <p>
+      Every puzzle was patience.<br>
+      Every lock was trust.<br>
+      Every wait was proof that some things are worth staying for.
+    </p>
+
+    <p>
+      If you’re reading this, it means you stayed.<br>
+      And that’s all I ever wanted.
+    </p>
+
+    <p>
+      Happy New Year, my heart.<br>
+      And if life ever feels complicated again,<br>
+      remember — you already solved me.
+    </p>
+
+    <p class="muted">— Yours</p>
+  </div>
+</section>
 
 <script>
-// GRID DATA
-const letters = [
-"PDZQZHNUABYWRDHNRGWU",
-"LJONLCUQRMHTLAHDHPSN",
-"YTDKLPHAZZQZJRKVPSWE",
-"WELIMSVSMGDHNYWWIQOI",
-"BMXKWEQBMQUBLRIWTZV",
-"AGIFREUDRFDXLNDXMBFB",
-"PNPYVYPAOLVVBOSTEYRT",
-"JQLPYIXZGKYFCVXJSNS",
-"LFPXNKPPATOFTNGESHJE",
-"HEDTUWRELTCZIOYOIDGI",
-"QWLHAPPINESSPTJQTKXR",
-"AKRFNFHDPHRXAQDUBLED",
-"YWPVHTFWNXGCTFHAIYII",
-"IURTSJKJXHGGIBHVECDK",
-"OCNOJXQJQJEJIEIBMGBRW",
-"POFNPDGXFJXYNWIOFKMM",
-"PAMRPXLBMDXKCAKQLPIP",
-"NCGWIUGHAYKHEXIMOCRB",
-"FXSFHHXCQGRONLUMTCAA",
-"MQMXPIKNPXQTM T BFFD E K"
-];
-
-// WORD LIST
-const wordsToFind = ["HAPPINESS"]; // Add more words here
-
-// RENDER GRID
-const gridContainer = document.getElementById('grid');
-const wordCountEl = document.getElementById('wordCount');
-const wordsEl = document.getElementById('words');
-
-wordCountEl.textContent = wordsToFind.length;
-
-letters.forEach((row, r)=>{
-  row.split('').forEach((letter,c)=>{
-    const div = document.createElement('div');
-    div.textContent = letter;
-    div.className = 'cell';
-    div.dataset.row = r;
-    div.dataset.col = c;
-    gridContainer.appendChild(div);
-  });
-});
-
-// RENDER WORDS TO FIND
-wordsToFind.forEach(word=>{
-  const span = document.createElement('span');
-  span.textContent = word;
-  wordsEl.appendChild(span);
-});
-
-// INTERACTIVITY
-let selecting = false;
-let startCell = null;
-let selectedCells = [];
-
-function getCell(row,col){
-  return document.querySelector(`.cell[data-row='${row}'][data-col='${col}']`);
+function show(id) {
+  document.querySelectorAll("section").forEach(s => s.classList.remove("active"));
+  document.getElementById(id).classList.add("active");
 }
 
-gridContainer.addEventListener('mousedown', e=>{
-  if(!e.target.classList.contains('cell')) return;
-  selecting=true;
-  startCell=e.target;
-  selectedCells=[startCell];
-  startCell.classList.add('selected');
-});
+function checkPass() {
+  const v = passInput.value.trim().toLowerCase();
+  if (v === "yes") show("videoSection");
+}
 
-gridContainer.addEventListener('mouseover', e=>{
-  if(!selecting) return;
-  if(!e.target.classList.contains('cell')) return;
-  if(selectedCells.includes(e.target)) return;
-  selectedCells.push(e.target);
-  e.target.classList.add('selected');
-});
-
-document.addEventListener('mouseup', ()=>{
-  if(!selecting) return;
-  selecting=false;
-
-  // CHECK SELECTED WORD
-  const word = selectedCells.map(c=>c.textContent).join('');
-  const reversed = selectedCells.map(c=>c.textContent).reverse().join('');
-  const foundIndex = wordsToFind.findIndex(w=>w===word || w===reversed);
-  if(foundIndex>=0){
-    selectedCells.forEach(c=>{c.classList.add('found'); c.classList.remove('selected');});
-    const spans = wordsEl.querySelectorAll('span');
-    spans[foundIndex].classList.add('found');
-    clues.push(word);
-    alert(`You found "${wordsToFind[foundIndex]}"!`);
-    if(clues.length===wordsToFind.length){
-      alert("🎉 Congratulations! You found all words!");
-    }
-  } else {
-    selectedCells.forEach(c=>c.classList.remove('selected'));
+function checkMorse() {
+  const v = morseInput.value.trim().toLowerCase();
+  if (v === "heart") {
+    document.getElementById("morseAudio").pause();
+    show("logic");
   }
-  selectedCells=[];
-});
+}
+
+function checkLogic() {
+  const v = logicInput.value.trim();
+  if (v === "5") { // H E A R T
+    checkTime();
+  }
+}
+
+function checkTime() {
+  const now = new Date();
+  if (now.getHours() === 0 && now.getMinutes() === 0) {
+    show("final");
+  } else {
+    show("wait");
+  }
+}
+
+setInterval(() => {
+  const now = new Date();
+  const t = now.toLocaleTimeString();
+  const clock = document.getElementById("clock");
+  if (clock) clock.textContent = "Current time: " + t;
+
+  if (now.getHours() === 0 && now.getMinutes() === 0) {
+    show("final");
+  }
+}, 1000);
 </script>
 
 </body>
 </html>
-
